@@ -1,0 +1,22 @@
+<h1>Create a project</h1>
+
+<%= form_with model: @project, local: true do |form| %>
+    <p>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+    </p>
+
+    <p>
+    <%= form.label :description %><br>
+    <%= form.text_area :description %>
+    </p>
+
+    <p>
+    <%= form.label :budget %><br>
+    <%= form.number_field :budget %>
+    </p>
+
+    <p>
+    <%= form.submit %>
+    </p>
+<% end %>
