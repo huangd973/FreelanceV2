@@ -36,7 +36,7 @@
         <tbody>  
             <% @developers.each do |developer| %>            
                 <tr>
-                    <td><%= developer.user_id %></td>
+                    <td><%= developer.user.pseudo %></td>
                     <td><%= developer.motivation %></td>
                     <% unless developer.user.developer_confirm? %>
                         <td class="bg-warning text-center pb-1 ">
