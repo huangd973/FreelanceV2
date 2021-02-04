@@ -77,14 +77,16 @@
                 <%= button_to 'Delete', project_path(project),class:"btn btn-outline-danger", method: :delete, :onclick => "return confirm('Are you sure?')", :remote => true %>
               <% end %>
             </div>
-            <div class="col-4">
-            
+            <div class="col-4 d-flex justify-content-end">
+              <% if ((user_signed_in? && current_user.developer_confirm?) || current_user.admin?) && project.developer_id == nil %>
+                <%= link_to '<button type="button" class="btn btn-outline-primary">Take order</button>'.html_safe, take_path(foo_param: current_user.id, project_param: project, name_param: project.name), method: :get , :onclick => "return confirm('Are you sure?')" %>
+              <% end %>
             </div>
           </div>
         </div>
       </div>
     <% end %>
-
+    <div class="pb-5"></div>
   </body>
 
 

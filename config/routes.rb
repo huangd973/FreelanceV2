@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+ 
   devise_for :users
   devise_scope :user do
     get '/users/sign_out' => 'devise/sessions#destroy'
@@ -10,8 +11,12 @@ Rails.application.routes.draw do
   resources :projects
   resources :categories
   resources :developers, only: [:index, :new ,:create]
+  resources :room_messages
+  resources :rooms
+
 
   get '/projects' => 'projects#search', :as => 'search_page'
 
   get '/accept' => 'developers#accept', :as => 'accept'
+  get '/take' => 'projects#take', :as => 'take'
 end

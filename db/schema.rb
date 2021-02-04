@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_04_010657) do
+ActiveRecord::Schema.define(version: 2021_02_04_155031) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -44,6 +44,25 @@ ActiveRecord::Schema.define(version: 2021_02_04_010657) do
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
+  create_table "room_messages", force: :cascade do |t|
+    t.integer "room_id", null: false
+    t.integer "user_id", null: false
+    t.text "message"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["room_id"], name: "index_room_messages_on_room_id"
+    t.index ["user_id"], name: "index_room_messages_on_user_id"
+  end
+
+  create_table "rooms", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "client_id"
+    t.integer "dev_id"
+    t.index ["name"], name: "index_rooms_on_name", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -56,6 +75,8 @@ ActiveRecord::Schema.define(version: 2021_02_04_010657) do
     t.boolean "admin"
     t.boolean "developer_confirm"
     t.boolean "developer_request"
+    t.string "authentication_token", limit: 30
+    t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["pseudo"], name: "index_users_on_pseudo", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -65,4 +86,6 @@ ActiveRecord::Schema.define(version: 2021_02_04_010657) do
   add_foreign_key "projects", "categories", column: "categorie_id"
   add_foreign_key "projects", "developers"
   add_foreign_key "projects", "users"
+  add_foreign_key "room_messages", "rooms"
+  add_foreign_key "room_messages", "users"
 end

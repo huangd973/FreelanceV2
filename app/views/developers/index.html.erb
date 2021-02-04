@@ -26,17 +26,19 @@
     <div class="pt-5"></div>
     <table class="table table-bordered  mx-auto  col-10">
         <thead>
-            <tr>
-                <th><p>Pseudo</p></td>
-                <th><p>motivation</p></td>
-                <th><p>Statut</p></td>
-                <th><p>Actions</p></td>
+            <tr class="text-center">
+                <th><p>Pseudo</p></th>
+                <th><p>email</p></th>
+                <th><p>motivation</p></th>
+                <th><p>Statut</p></th>
+                <th><p>Actions</p></th>
             </tr>
         </thead>
         <tbody>  
             <% @developers.each do |developer| %>            
                 <tr>
                     <td><%= developer.user.pseudo %></td>
+                    <td><%= developer.user.email %></td>
                     <td><%= developer.motivation %></td>
                     <% unless developer.user.developer_confirm? %>
                         <td class="bg-warning text-center pb-1 ">

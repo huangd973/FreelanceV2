@@ -1,0 +1,110 @@
+<html>
+   <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      <meta name="description" content="" />
+      <meta name="author" content="" />
+      <title>Freelancer style</title>
+      <!-- Favicon-->
+      <!-- <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />-->
+      <%= favicon_link_tag 'favicon.ico' %>
+      <!-- Font Awesome icons (free version)-->
+      <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+      <!-- Google fonts-->
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+      <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+      <!-- Core theme CSS (includes Bootstrap)-->
+      <!--<link href="/../../assets/stylesheets/home/styles.css" rel="stylesheet" />-->
+      <%= stylesheet_link_tag 'styles.css', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+  </head>
+   <!-- Masthead-->
+        <header class="masthead bg-primary text-white text-center">
+          <h2>Manage projects</h2>
+        </header>
+  <body>
+        <div class="pt-5"></div>
+        <div class="w-75 mx-auto col-10">
+            <h1>
+                <p>Chat for : <%= @room.name %></p>
+            </h1>
+
+            <div class="row">
+            <div class="col-12 col-md-3">
+                <%= render partial: 'rooms' %>
+            </div>
+
+            <div class="col">
+                <div class="chat" data-channel-subscribe="room" data-room-id="<%= @room.id %>">
+                <% @room_messages.each do |room_message| %>
+                    <div class="chat-message-container">
+                    <div class="row no-gutters">
+                        <div class="col-auto text-center">
+                            <p><%= room_message.user.pseudo %></p>
+                        </div>
+
+                        <div class="col">
+                            <div class="message-content">
+                                <p class="mb-1">
+                                <%= room_message.message %>
+                                </p>
+
+                                <div class="text-right">
+                                <small>
+                                     <i class="far fa-clock"></i> Posted <%= time_ago_in_words(room_message.created_at) %>
+                                </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                <% end %>
+                </div>
+
+                <%= simple_form_for @room_message, remote: true do |form| %>
+                <div class="input-group mb-3">
+                    <%= form.input :message, as: :string,
+                                            wrapper: false,
+                                            autofocus: true,
+                                            label: false,
+                                            input_html: {
+                                            class: 'chat-input w-75'
+                                            } %>
+                    <div class="input-group-append">
+                        <%= form.submit "Send", class: 'btn btn-primary chat-input' %>
+                    </div>
+                </div>
+
+                <%= form.input :room_id, as: :hidden %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <div class="pb-5"></div>
+
+    <div class="d-none" data-role="message-template">
+        <div class="chat-message-container">
+            <div class="row no-gutters">
+            <div class="col-auto text-center">
+                <p>check</p>
+            </div>
+
+            <div class="col">
+                <div class="message-content">
+                <p class="mb-1" data-role="message-text"></p>
+
+                <div class="text-right">
+                    <small data-role="message-date"></small>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+   
+  </body>
+
+
+</html>
+

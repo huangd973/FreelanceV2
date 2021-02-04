@@ -2,10 +2,12 @@ class ProjectsController < ApplicationController
     before_action :authenticate_user!
     before_action :find_project, only: [:show, :edit, :update, :destroy]
     before_action :check_ownership, only: [:edit, :update, :destroy]
+    before_action :load_entities, only: [:take]
 
     def index 
         @projects = Project.all
         @categories = Categorie.all
+        @users = User.all
         if params[:search].blank?  
             
         else  
@@ -71,6 +73,38 @@ class ProjectsController < ApplicationController
         
     end
 
+    def take
+        foo = params[:foo_param]
+        dev = Developer.find_by(user_id: foo)
+
+        proj = params[:project_param]
+        project = Project.find(proj)
+        project[:developer_id] = dev.id
+        project[:statut] = true
+        
+        name = params[:name_param]
+
+        
+        
+        client = User.find(project.user.id)
+        dev = User.find(current_user.id)
+        
+
+
+        @room = Room.new(name: name, client_id: client.id, dev_id: dev.id)
+        if @room.save
+            project.save
+            flash[:success] = "Room #{@room.name} was created successfully"
+            redirect_to projects_path
+        else
+            redirect_to projects_path
+            flash[:alert] = "You can not take this project"
+        end
+
+        
+    end
+
+
     private
 
     def project_params
@@ -88,6 +122,16 @@ class ProjectsController < ApplicationController
                 redirect_to projects_path
             end
         end
+    end
+    protected
+
+    def load_entities
+        @rooms = Room.all
+        @room = Room.find(params[:id]) if params[:id]
+    end
+
+    def permitted_parameters
+        params.require(:room).permit(:name, :client_id, :dev_id)
     end
 
 end

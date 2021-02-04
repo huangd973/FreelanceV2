@@ -9,6 +9,8 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import "bootstrap"
 import "bootstrap-multiselect"
+import "bootstrap-sprockets"
+
 
 Rails.start()
 Turbolinks.start()
