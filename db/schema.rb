@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_02_161540) do
+ActiveRecord::Schema.define(version: 2021_02_04_010657) do
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "developers", force: :cascade do |t|
+    t.string "motivation"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_developers_on_user_id"
+  end
 
   create_table "projects", force: :cascade do |t|
     t.string "name"
@@ -20,6 +34,14 @@ ActiveRecord::Schema.define(version: 2021_02_02_161540) do
     t.boolean "payed"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.json "image"
+    t.integer "user_id"
+    t.integer "categorie_id"
+    t.string "phone"
+    t.integer "developer_id"
+    t.index ["categorie_id"], name: "index_projects_on_categorie_id"
+    t.index ["developer_id"], name: "index_projects_on_developer_id"
+    t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -31,8 +53,16 @@ ActiveRecord::Schema.define(version: 2021_02_02_161540) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "pseudo"
+    t.boolean "admin"
+    t.boolean "developer_confirm"
+    t.boolean "developer_request"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["pseudo"], name: "index_users_on_pseudo", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "developers", "users"
+  add_foreign_key "projects", "categories", column: "categorie_id"
+  add_foreign_key "projects", "developers"
+  add_foreign_key "projects", "users"
 end

@@ -10281,3 +10281,24 @@ form .row:first-child .floating-label-form-group {
   color:white;
   text-align: center;
 }
+
+.cate {
+  background-size: cover;
+  background-position: center;
+  color:white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  height:250px;
+  font-size: 30px;
+  border-radius: 8px;
+  text-shadow:  0 10px 30px rgba(0,0,0,0.4);;
+}
+
+.project {
+  background-color:white;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  height:200px;
+}

@@ -1,0 +1,61 @@
+<html>
+   <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      <meta name="description" content="" />
+      <meta name="author" content="" />
+      <title>Freelancer style</title>
+      <!-- Favicon-->
+      <!-- <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />-->
+      <%= favicon_link_tag 'favicon.ico' %>
+      <!-- Font Awesome icons (free version)-->
+      <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+      <!-- Google fonts-->
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+      <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+      <!-- Core theme CSS (includes Bootstrap)-->
+      <!--<link href="/../../assets/stylesheets/home/styles.css" rel="stylesheet" />-->
+      <%= stylesheet_link_tag 'styles.css', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+  </head>
+   <!-- Masthead-->
+        <header class="masthead bg-primary text-white text-center">
+          <h2>Become a dev</h2>
+        </header>
+  <body>    
+
+    <div class="pt-5"></div>
+    <% unless current_user.developer_request? %>
+        <%= form_with model: @developer do |f| %>
+        
+            <div class="card bg-light card-columns mx-auto d-flex justify-content-center col-10 col-md-8 col-xl-6">
+                <article class="card-body" style="height: 800px;">
+                    <h4 class="card-title mt-3 text-center">What is your motivation ?</h4>
+
+                    <!-- description -->
+                    <div class="form-group input-group h-75 w-100">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fab fa-font-awesome"></i></span>
+                    </div>
+                    <%= f.text_area :motivation, placeholder: "Write your motivation here" ,class: "form-control" %>
+                    </div> <!-- form-group// -->
+                
+                    <div class="form-group actions pt-3">
+                        <%= f.submit "Apply now" ,class:"btn btn-primary btn-block"  %>
+                    </div> <!-- form-group// -->      
+
+                    
+                </article>
+            </div>
+        <% end %>
+    <% else %>
+        <div class="card bg-light card-columns mx-auto d-flex justify-content-center col-10 col-md-8 col-xl-6">
+            <article class="card-body" style="height: 100px;">
+                <h4 class="card-title mt-3 text-center">Your request has been sent.</h4>
+            </article>
+        </div>
+    <% end %>
+    
+    <div class="pb-5"></div>
+  </body>
+</html>

@@ -1,0 +1,92 @@
+<html>
+   <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      <meta name="description" content="" />
+      <meta name="author" content="" />
+      <title>Freelancer style</title>
+      <!-- Favicon-->
+      <!-- <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />-->
+      <%= favicon_link_tag 'favicon.ico' %>
+      <!-- Font Awesome icons (free version)-->
+      <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+      <!-- Google fonts-->
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+      <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+      <!-- Core theme CSS (includes Bootstrap)-->
+      <!--<link href="/../../assets/stylesheets/home/styles.css" rel="stylesheet" />-->
+      <%= stylesheet_link_tag 'styles.css', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+  </head>
+   <!-- Masthead-->
+        <header class="masthead bg-primary text-white text-center">
+          <h2>Projects</h2>
+        </header>
+  <body>
+    <div class="pt-5"></div>
+    <div class="pb-5 text-center" >
+        <%= link_to '<button type="button" class="w-75 p-4 btn btn-outline-primary"><h2>CLICK HERE TO SUBMIT YOUR PROJECT</h2></button>'.html_safe, new_project_path %>
+    </div>
+    <h3 class="text-center">Freelance Projects - <%= @counted %> found</h3>
+
+    <%= form_tag("/projects", :method => "get", class: 'navbar-form mx-auto d-flex justify-content-center col-10 col-md-10 col-xl-10') do %>  
+      <div class="input-group">  
+        <%= search_field_tag :search, params[:search], placeholder: "Search", class: "form-control w-50" %>
+        <%= select_tag :search_by_category, options_from_collection_for_select(@categories,"id","name",params[:search_by_category]),include_blank: "Select category" , class: "form-control w-25" %> 
+        <%= number_field_tag :search_by_budget, params[:search_by_budget] ,placeholder: "Budget max", class: "form-control" %> 
+        <div class="input-group-btn">  
+          <button id="search-button" type="button_tag" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>  
+    <% end %>
+
+    <div class="pt-5"></div>
+      <% flash.each do |type, msg| %>
+      <div class="alert alert-warning alert-dismissible mx-auto d-flex justify-content-center col-10 col-md-10 col-xl-10" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <%= msg %>
+      </div>
+    <% end %>
+
+  
+    <% @projects.each do |project| %>
+      <div class="pt-5">
+        <div class="project w-75 mx-auto col-10 col-md-10 col-xl-10">
+          <div class="row pt-2">
+            <div class="col-8">
+              <div class="d-flex justify-content-start text-primary">
+                <h2><%= link_to project.name, project_path(project) %></h2>
+                <% if project.statut %>
+                  <p class="h3 mx-4 px-2 pt-1 bg-danger text-white">in process</p>
+                <% else %>
+                  <p class="h3 mx-4 px-2 pt-1 bg-success text-white">available</p>
+                <% end %>
+              </div>
+              <p><i class="far fa-clock"></i> Posted <%= time_ago_in_words(project.created_at) %></p>
+            </div>
+            <div class="col-4">
+              <h2 class="d-flex justify-content-end text-primary"><%= project.budget %><i class="fas fa-euro-sign mx-1 pt-2"></i></h2>
+            </div>
+          </div>
+          <div class="row pt-5">
+            <div class="col-8 d-flex align-items-start">
+              <% if (user_signed_in? && current_user.id == project.user_id) || current_user.admin? %>
+                <%= link_to '<button type="button" class="btn btn-outline-warning">Edit</button>'.html_safe, edit_project_path(project) %>
+                <%= button_to 'Delete', project_path(project),class:"btn btn-outline-danger", method: :delete, :onclick => "return confirm('Are you sure?')", :remote => true %>
+              <% end %>
+            </div>
+            <div class="col-4">
+            
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+  </body>
+
+
+</html>
+

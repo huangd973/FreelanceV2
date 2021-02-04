@@ -1,0 +1,71 @@
+<html>
+   <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      <meta name="description" content="" />
+      <meta name="author" content="" />
+      <title>Freelancer style</title>
+      <!-- Favicon-->
+      <!-- <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />-->
+      <%= favicon_link_tag 'favicon.ico' %>
+      <!-- Font Awesome icons (free version)-->
+      <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+      <!-- Google fonts-->
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+      <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+      <!-- Core theme CSS (includes Bootstrap)-->
+      <!--<link href="/../../assets/stylesheets/home/styles.css" rel="stylesheet" />-->
+      <%= stylesheet_link_tag 'styles.css', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+  </head>
+   <!-- Masthead-->
+        <header class="masthead bg-primary text-white text-center">
+          <h2>Developers application</h2>
+        </header>
+  <body>
+    <div class="pt-5"></div>
+    <table class="table table-bordered  mx-auto  col-10">
+        <thead>
+            <tr>
+                <th><p>user id</p></td>
+                <th><p>motivation</p></td>
+                <th><p>Statut</p></td>
+                <th><p>Actions</p></td>
+            </tr>
+        </thead>
+        <tbody>  
+            <% @developers.each do |developer| %>            
+                <tr>
+                    <td><%= developer.user_id %></td>
+                    <td><%= developer.motivation %></td>
+                    <% unless developer.user.developer_confirm? %>
+                        <td class="bg-warning text-center pb-1 ">
+                            <p>Waiting</p>
+                        </td>
+                    <% else %>
+                        <td class="bg-success text-center pb-1 ">
+                            <p>Accepted</p>
+                        </td>
+                    <% end %>
+                    <% unless developer.user.developer_confirm? %>
+                        <td class="w-25 text-center">
+                            <%= link_to '<button type="button" class="btn btn-outline-success">Accept</button>'.html_safe, accept_path(foo_param: developer.user_id), method: :get %>
+                            <%= link_to '<button type="button" class="btn btn-outline-danger">Refused</button>'.html_safe, developers_path %>
+                        </td>
+                    <% else %>
+                        <td><p class="text-center">Done</p></td>
+                    <% end %>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+  
+
+  
+ 
+
+  </body>
+
+
+</html>
+
